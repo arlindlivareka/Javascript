@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+</head>
+<body>
+
+<script>
+  let data = '[{"size":50,"color":"red"},{"size":40,"color":"green"},{"size":20,"color":"blue"},{"size":35,"color":"yellow"},{"size":25,"color":"orange"}]'
+  data = JSON.parse(data)
+
+  let content = document.getElementsByTagName("body")[0];
+  for(let i =0;i<data.length;i++){
+    let top = Math.floor(Math.random()*400);
+    let left = Math.floor(Math.random()*400);
+    content.innerHTML += `<div style="height:${data[i]['size']}px;
+                                         width:${data[i]['size']}px;
+                                         background-color:${data[i]['color']};
+                                         position:absolute;
+                                         top:${top}px;
+                                         left:${left}px;"
+                                         onclick='pop(this)'></div>`
+  }
+
+
+  function pop(elem){
+    let content = document.getElementsByTagName("body")[0];
+
+    console.log(elem.style.top.split("px"));
+
+    let opacity = 1.0;
+    let id = setInterval(function(){
+      opacity -= 0.1;
+      elem.style.opacity = `${opacity}`;
+    },100);
+
+    setTimeout(function(){
+      clearInterval(id);
+
+      content.innerHTML += `      <div style="height: ${elem.style.height};
+                                         width:${elem.style.height};
+                                         background-color:${elem.style.backgroundColor};
+                                         position:absolute;
+                                         top:${parseInt(elem.style.top.split("px")[0])+85}px;
+                                         left:${parseInt(elem.style.left.split("px")[0])+85}px;"
+                                         onclick='pop(this)'></div>
+
+                                         <div style="height: ${elem.style.height};
+                                         width:${elem.style.height};
+                                         background-color:${elem.style.backgroundColor};
+                                         position:absolute;
+                                         top:${parseInt(elem.style.top.split("px")[0])+85}px;
+                                         left:${parseInt(elem.style.left.split("px")[0])-85}px;"
+                                         onclick='pop(this)'></div>
+
+                                         <div style="height: ${elem.style.height};
+                                         width:${elem.style.height};
+                                         background-color:${elem.style.backgroundColor};
+                                         position:absolute;
+                                         top:${parseInt(elem.style.top.split("px")[0])-85}px;
+                                         left:${parseInt(elem.style.left.split("px")[0])+85}px;"
+                                         onclick='pop(this)'></div>
+
+                                         <div style="height: ${elem.style.height};
+                                         width:${elem.style.height};
+                                         background-color:${elem.style.backgroundColor};
+                                         position:absolute;
+                                         top:${parseInt(elem.style.top.split("px")[0])-85}px;
+                                         left:${parseInt(elem.style.left.split("px")[0])-85}px;"
+                                         onclick='pop(this)'></div>
+                                         `;
+
+
+
+      content.removeChild(elem);
+
+    },1000);
+
+
+
+  }
+
+
+
+</script>
+</body>
+</html>
